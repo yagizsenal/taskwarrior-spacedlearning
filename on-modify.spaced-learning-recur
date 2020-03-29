@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+
+import sys
+import json
+from datetime import datetime, timedelta, date
+
+original = json.loads(sys.stdin.readline())
+modified = json.loads(sys.stdin.readline())
+
+if (original['spacedLearning'] == 'exclude'):
+    print(json.dumps(modified))
+    sys.exit(0)
+
+if (modified['status'] != 'completed'):
+    print(json.dumps(modified))
+    sys.exit(0)
+
+if (modified['spacedLearning'] == 'day14'):
+    modified['spacedLearning'] = 'exclude'
+    print(json.dumps(modified))
+    sys.exit(0)
+
+print("Rescheduling task...")
+
+def to_datetime(string):
+    return datetime.strptime(string, "%Y%m%dT%H%M%SZ") 
+
+def to_date_string(date):
+    return date.strftime("%Y%m%dT%H%M%SZ" )
+
+def shift_date_by_days(original, modified, day_count):
+    shifted_time = to_datetime(modified['scheduled']) + timedelta(days=day_count)
+    modified['scheduled'] = to_date_string(shifted_time)
+    modified['due'] = to_date_string(shifted_time + timedelta(days=1))
+
+next_day = {
+        'day0':'day1',
+        'day1':'day3',
+        'day3':'day7',
+        'day7':'day14',
+        }
+
+shift_days = {
+        'day0': 1,
+        'day1': 2,
+        'day3': 4,
+        'day7': 7,
+        }
+
+
+#If not previously scheduled, schedule for today
+if (not original['scheduled']):
+    modified['scheduled'] = to_date_string(date.today())
+
+value = modified['spacedLearning']
+modified['spacedLearning'] = next_day[value]
+shift_date_by_days(original, modified, shift_days[value])
+modified['status'] = 'pending'
+
+print(json.dumps(modified))
+sys.exit(0)
