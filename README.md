@@ -18,7 +18,7 @@ uda.spacedLearning.default=exclude
 
 # How to use
 
-While you add a task you can add the spaced learning state of the task by adding `spacedLearning` attribute. After you comlete the task by `task done`, next review day is calculated and the task is updated.
+When you add a task you can add the spaced learning state of the task by adding `spacedLearning` attribute. After you comlete the task by `task done`, next review day is calculated and the task is updated.
 
 Current attribute values:
 | Value         | Description                                                     |
