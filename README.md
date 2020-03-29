@@ -9,7 +9,7 @@ This is a taskwarrior hook script that automatically manages the next time of th
 uda.spacedLearning.type=string
 uda.spacedLearning.label=SpacedLearning
 uda.spacedLearning.values=exclude,day0,day1,day3,day7,day14
-uda.spacedLearning.default=exclud
+uda.spacedLearning.default=exclude
 ```
 2. Copy `on-modify.spaced-learning-recur` to your `.task/hooks` directory.
 
