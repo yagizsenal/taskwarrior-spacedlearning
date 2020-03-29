@@ -1,2 +1,2 @@
 # taskwarrior-spacedlearning
-Hook for automatically reschedules the task
+Hook for automatically rescheduling the task
