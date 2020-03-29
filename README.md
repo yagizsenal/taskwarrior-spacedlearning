@@ -1,5 +1,5 @@
 # taskwarrior-spacedlearning
-This is a taskwarrior hook scripts that automatically manages the spacing of the task according to [Spaced Learning](https://www.oxfordlearning.com/what-is-spaced-practice/) method.
+This is a taskwarrior hook script that automatically manages the next time of the task according to [Spaced Learning](https://www.oxfordlearning.com/what-is-spaced-practice/) method.
 
 # How to install
 
