@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, date
 original = json.loads(sys.stdin.readline())
 modified = json.loads(sys.stdin.readline())
 
-if (original['spacedLearning'] == 'exclude'):
+if (not 'spacedLearning' in original or original['spacedLearning'] == 'exclude'):
     print(json.dumps(modified))
     sys.exit(0)
 
@@ -16,6 +16,7 @@ if (modified['status'] != 'completed'):
     sys.exit(0)
 
 if (modified['spacedLearning'] == 'day14'):
+    print("Congratulations. You have finished the spaced learning period for this task.")
     modified['spacedLearning'] = 'exclude'
     print(json.dumps(modified))
     sys.exit(0)
@@ -29,8 +30,8 @@ def to_date_string(date):
     return date.strftime("%Y%m%dT%H%M%SZ" )
 
 def shift_date_by_days(original, modified, day_count):
-    shifted_time = to_datetime(modified['scheduled']) + timedelta(days=day_count)
-    modified['scheduled'] = to_date_string(shifted_time)
+    shifted_time = to_datetime(modified['end']).replace(hour=0,minute=0,second=0) + timedelta(days=day_count)
+    modified['wait'] = to_date_string(shifted_time)
     modified['due'] = to_date_string(shifted_time + timedelta(days=1))
 
 next_day = {
@@ -48,14 +49,15 @@ shift_days = {
         }
 
 
-#If not previously scheduled, schedule for today
-if (not original['scheduled']):
-    modified['scheduled'] = to_date_string(date.today())
+#If not previously wait, schedule for today
+if ('wait' not in original):
+    modified['wait'] = to_date_string(date.today())
 
 value = modified['spacedLearning']
 modified['spacedLearning'] = next_day[value]
 shift_date_by_days(original, modified, shift_days[value])
 modified['status'] = 'pending'
+del modified['end']
 
 print(json.dumps(modified))
 sys.exit(0)
